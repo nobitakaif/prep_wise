@@ -1,0 +1,11 @@
+[33mcommit 4a0777528cf0bc2b2f8680c98e2f980e11bd2cff[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Author: mohd kaif <mk2818356@gmail.com>
+Date:   Tue Apr 15 20:08:57 2025 +0530
+
+    initialize and added auth page
+
+[33mcommit 2319bc95c84d3a638b3c0293dc07a50d9faeac80[m
+Author: mohd kaif <mk2818356@gmail.com>
+Date:   Mon Apr 14 18:43:50 2025 +0530
+
+    Initial commit from Create Next App

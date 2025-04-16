@@ -10,6 +10,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { toast } from "sonner"
 import FormField from "./FormField"
+import { useRouter } from "next/navigation"
+import {  useRef } from "react"
 
 
 const authFormSchema = (type:FormType)=>{
@@ -22,6 +24,12 @@ const authFormSchema = (type:FormType)=>{
 
 
 export default function AuthForm({type}:{type:FormType}){
+    
+    const router = useRouter()
+    const nameRef = useRef<HTMLInputElement>(null)
+    const emailRef = useRef<HTMLInputElement>(null)
+    const passwordRef = useRef<HTMLInputElement>(null)
+    
     const formSchema = authFormSchema(type)
      // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -32,15 +40,26 @@ export default function AuthForm({type}:{type:FormType}){
       password:""
     },
   })
- 
+  const btnClick=()=>{
+    const name = nameRef.current?.value.trim()
+    const email = emailRef.current?.value.trim()
+    const password = passwordRef.current?.value.trim()
+    if(!email || !name ||!password){
+        toast.error("please fill all the details")
+        return 
+    }
+  }
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     try{
-        if(type === 'sign-in'){
-            console.log('Signin ', values)
+        if(type === 'sign-up'){
+            // console.log(values)
+            toast.success('Account created successfully.')
+            router.push('/')
         }
         else{
-            console.log('Signup',values)
+            toast.success('Sign-in completed ')
+            router.push('/')
         }
     }catch(e){
         console.log(e)
@@ -69,25 +88,28 @@ export default function AuthForm({type}:{type:FormType}){
                                 label="Name"
                                 placeholder="Enter your Name"
                                 type="text"
+                                ref={nameRef}
                             />
                             )}
 
                             <FormField
-                            control={form.control}
-                            name="email"
-                            label="Email"
-                            placeholder="Enter your email"
-                            type="email"
+                                control={form.control}
+                                name="email"
+                                label="Email"
+                                placeholder="Enter your email"
+                                type="email"
+                                ref={emailRef}
                             />
 
                             <FormField
-                            control={form.control}
-                            name="password"
-                            label="Password"
-                            placeholder="Enter your password"
-                            type="password"
+                                control={form.control}
+                                name="password"
+                                label="Password"
+                                placeholder="Enter your password"
+                                type="password"
+                                ref={passwordRef}
                             />
-                        <Button className="btn" type="submit">{isSignIn ? 'Sign in': 'Create an Account'}</Button>
+                        <Button className="btn"  onClick={btnClick} type="submit">{isSignIn ? 'Sign in': 'Create an Account'}</Button>
                     </form>
                 </Form>
             <p className="text-center"> 
@@ -99,3 +121,5 @@ export default function AuthForm({type}:{type:FormType}){
      </div>
     </div>
 }
+
+ 
