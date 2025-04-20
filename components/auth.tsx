@@ -75,7 +75,7 @@ export default function AuthForm({type}:{type:FormType}){
             }
             
             toast.success('Account created successfully.')
-            router.push('/')
+            router.push('/signin')
         }
         else{
             const { email, password } = values

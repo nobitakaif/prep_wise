@@ -1,21 +1,29 @@
+// "use client"
 import InterviewCard from "@/components/InterviewCard";
 import { Button } from "@/components/ui/button";
-import { dummyInterviews } from "@/constants";
-import { getCurrentUser, getInterviewsByUserId, getLatestInterviews } from "@/lib/actions/auth.action";
+import {  getInterviewsByUserId, getLatestInterviews } from "@/lib/actions/general.action"
+import { getCurrentUser } from "@/lib/actions/auth.action";
 import Image from "next/image";
 import Link from "next/link";
+// import { useRouter } from "next/navigation";
+import { onAuthStateChanged } from "firebase/auth";
 
 
 export default async function Home(){
 
+    // const router = useRouter()
   const user = await getCurrentUser()
+  
+  // if(!user){
+  //   router.push('/signin')
+  // }
   console.log('userId this is',user)
   
 
   // we can send the mulitple request at time rather than sending two seperate request, it will send the request at the same time  
   const [userInterview,latestInterviews] = await Promise.all([
-    await getInterviewsByUserId("9ACQsVqEBcQddiqO8yVWD2VlwH53"),
-    await getLatestInterviews()
+    await getInterviewsByUserId(user?.id!), //first request
+    await getLatestInterviews({userId : user?.id!}) // second request
   ])
 
 
@@ -25,7 +33,8 @@ export default async function Home(){
   
   const hasPastInterviews = userInterview?.length! > 0
   const hasUpcommingInterview = latestInterviews?.length! > 0
-  // console.log(userInterview?.length)
+  console.log("this is length fo userInterviews : ",userInterview?.length)
+  console.log("this is the array of userinterview : ",userInterview)
   
   return (
       <>

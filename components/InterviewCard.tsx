@@ -7,7 +7,7 @@ import DisplayTechstack from "./DisplayTechstack"
 
 
 export default function InterviewCard({
-    interviewId,
+    id,
     userId,
     role,
     type,
@@ -55,7 +55,7 @@ export default function InterviewCard({
             <div className="flex flex-row justify-between">
                 <DisplayTechstack techStack={techstack}/>
                 <Button className="btn-primary">
-                    <Link href={feedback ? `/interview/${interviewId}/feedback` : `/interview/${interviewId}`}>{feedback ? `Check feedback`:`View Interview`}</Link>
+                    <Link href={feedback ? `/interview/${id}/feedback` : `/interview/${id}`}>{feedback ? `Check feedback`:`View Interview`}</Link>
                 </Button>
             </div>
         </div>
