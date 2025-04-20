@@ -4,9 +4,10 @@ import { getRandomInterviewCover } from "@/lib/utils"
 import { Button } from "./ui/button"
 import Link from "next/link"
 import DisplayTechstack from "./DisplayTechstack"
+import { getFeedbackByInterviewId } from "@/lib/actions/general.action"
 
 
-export default function InterviewCard({
+export default async function InterviewCard({
     id,
     userId,
     role,
@@ -16,7 +17,7 @@ export default function InterviewCard({
     }:InterviewCardProps
     ){
 
-    const feedback = null as Feedback | null
+    const feedback = userId && id ? await getFeedbackByInterviewId({interviewId:id,userId}) : null
     const normalizeType = /mix/gi.test(type) ? "Mixed" : type
     const formattedDate = dayjs(feedback?.createdAt || createdAt || Date.now()).format('MMM D, YYYY')
     
@@ -55,7 +56,9 @@ export default function InterviewCard({
             <div className="flex flex-row justify-between">
                 <DisplayTechstack techStack={techstack}/>
                 <Button className="btn-primary">
-                    <Link href={feedback ? `/interview/${id}/feedback` : `/interview/${id}`}>{feedback ? `Check feedback`:`View Interview`}</Link>
+                    <Link href={feedback ? `/interview/${id}/feedback` : `/interview/${id}`}> 
+                        {feedback ? `Check feedback`:`View Interview`}
+                    </Link>
                 </Button>
             </div>
         </div>
